@@ -216,7 +216,7 @@ export default function SchedulePage() {
   }
 
   return (
-    <div className="min-h-screen pb-24">
+    <div className="min-h-screen pb-24 max-w-lg mx-auto">
       <header className="px-4 pt-8 pb-6">
         <h1 className="text-lg font-medium text-foreground">Schedule</h1>
       </header>
