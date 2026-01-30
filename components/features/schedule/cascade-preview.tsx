@@ -45,15 +45,15 @@ export function CascadePreviewSheet({
       : `Moving to ${format(parseISO(newDate!), 'EEEE')}`
 
   return (
-    <div className="fixed inset-x-0 bottom-0 z-50 animate-in slide-in-from-bottom">
+    <div className="fixed inset-x-0 bottom-0 z-50">
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-background/80 backdrop-blur-sm"
+        className="fixed inset-0 bg-background/80 backdrop-blur-sm animate-fade-in"
         onClick={onCancel}
       />
 
       {/* Sheet */}
-      <div className="relative bg-card border-t border-border rounded-t-xl p-4 pb-8 max-h-[70vh] overflow-y-auto">
+      <div className="relative bg-card border-t border-border rounded-t-xl p-4 pb-8 max-h-[70vh] overflow-y-auto animate-slide-up">
         {/* Handle */}
         <div className="absolute top-2 left-1/2 -translate-x-1/2 w-12 h-1 bg-muted rounded-full" />
 
@@ -72,7 +72,7 @@ export function CascadePreviewSheet({
             riskStyle.bg
           )}
         >
-          <AlertCircle className={cn('h-4 w-4', riskStyle.text)} />
+          <AlertCircle className={cn('h-4 w-4', riskStyle.text)} strokeWidth={1.5} />
           <span className={cn('text-sm', riskStyle.text)}>{riskStyle.label}</span>
         </div>
 
@@ -99,7 +99,7 @@ export function CascadePreviewSheet({
                   <span className="text-muted-foreground">
                     {affected.run.distanceKm}km {affected.run.type}
                   </span>
-                  <ArrowRight className="h-3 w-3 text-muted-foreground" />
+                  <ArrowRight className="h-3 w-3 text-muted-foreground" strokeWidth={1.5} />
                   {affected.change === 'moved' && affected.newDate && (
                     <span className="text-foreground">
                       {format(parseISO(affected.newDate), 'EEE')}
@@ -128,14 +128,14 @@ export function CascadePreviewSheet({
             onClick={onCancel}
             className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg border border-border text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors"
           >
-            <X className="h-4 w-4" />
+            <X className="h-4 w-4" strokeWidth={1.5} />
             Cancel
           </button>
           <button
             onClick={onConfirm}
             className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-accent text-accent-foreground hover:bg-accent/90 transition-colors"
           >
-            <Check className="h-4 w-4" />
+            <Check className="h-4 w-4" strokeWidth={1.5} />
             {action === 'skip' ? 'Skip run' : 'Move run'}
           </button>
         </div>
@@ -157,7 +157,7 @@ export function CascadeSummary({ effect }: CascadeSummaryProps) {
   return (
     <div className="space-y-2">
       <div className={cn('inline-flex items-center gap-1 text-xs', riskStyle.text)}>
-        <AlertCircle className="h-3 w-3" />
+        <AlertCircle className="h-3 w-3" strokeWidth={1.5} />
         {riskStyle.label}
       </div>
 

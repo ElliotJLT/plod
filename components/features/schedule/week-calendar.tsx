@@ -203,14 +203,14 @@ export function WeekCalendar({
       : 0
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-3">
       {/* Week header with navigation */}
       <div className="flex items-center justify-between">
         <button
           onClick={goToPreviousWeek}
-          className="p-2 text-muted-foreground hover:text-foreground transition-colors"
+          className="p-2 -ml-2 text-muted-foreground hover:text-foreground transition-colors"
         >
-          <ChevronLeft className="h-5 w-5" />
+          <ChevronLeft className="h-5 w-5" strokeWidth={1.5} />
         </button>
 
         <div className="text-center">
@@ -218,33 +218,31 @@ export function WeekCalendar({
             Week {weekInfo.weekNumber}
           </p>
           <p className="text-xs text-muted-foreground">
-            {format(currentWeekStart, 'MMM d')} –{' '}
-            {format(addDays(currentWeekStart, 6), 'MMM d')}
+            {format(currentWeekStart, 'MMM d')} – {format(addDays(currentWeekStart, 6), 'MMM d')}
           </p>
         </div>
 
         <button
           onClick={goToNextWeek}
-          className="p-2 text-muted-foreground hover:text-foreground transition-colors"
+          className="p-2 -mr-2 text-muted-foreground hover:text-foreground transition-colors"
         >
-          <ChevronRight className="h-5 w-5" />
+          <ChevronRight className="h-5 w-5" strokeWidth={1.5} />
         </button>
       </div>
 
       {/* Week summary */}
-      <div className="rounded-lg border border-border bg-card p-3">
+      <div className="rounded-xl border border-border bg-card p-3">
         <div className="flex items-baseline justify-between mb-2">
           <p className="text-xs text-muted-foreground">
-            {weekInfo.completedRuns} of {weekInfo.plannedRuns} runs
+            {weekInfo.completedRuns}/{weekInfo.plannedRuns} runs
           </p>
           <p className="text-xs text-muted-foreground">
-            {weekInfo.completedDistanceKm.toFixed(1)} /{' '}
-            {weekInfo.plannedDistanceKm.toFixed(1)} km
+            {weekInfo.completedDistanceKm.toFixed(1)}/{weekInfo.plannedDistanceKm.toFixed(1)} km
           </p>
         </div>
-        <div className="w-full h-1 bg-muted rounded-full overflow-hidden">
+        <div className="w-full h-1.5 bg-muted rounded-full overflow-hidden">
           <div
-            className="h-full bg-accent transition-all"
+            className="h-full bg-accent rounded-full transition-all duration-300"
             style={{ width: `${progressPercent}%` }}
           />
         </div>

@@ -2,19 +2,20 @@ import { mockWeek } from "@/lib/mock-data"
 
 export function WeekWidget() {
   const { planned, completed } = mockWeek
-  const progressPercent = (completed / planned) * 100
+  const progressPercent = planned > 0 ? (completed / planned) * 100 : 0
 
   return (
-    <div className="rounded-lg border border-border bg-card p-4">
-      <p className="text-xs text-muted-foreground mb-3">This week</p>
-      <div className="flex items-baseline justify-between mb-2">
-        <p className="text-sm text-foreground">
-          {completed} of {planned} runs completed
+    <div className="rounded-xl border border-border bg-card p-4">
+      <div className="flex items-baseline justify-between mb-3">
+        <p className="text-xs text-muted-foreground">This week</p>
+        <p className="text-xs text-muted-foreground">
+          {completed}/{planned} runs
         </p>
       </div>
-      <div className="w-full h-1 bg-muted rounded-full overflow-hidden">
+
+      <div className="w-full h-1.5 bg-muted rounded-full overflow-hidden">
         <div
-          className="h-full bg-accent transition-all"
+          className="h-full bg-accent rounded-full transition-all duration-300"
           style={{ width: `${progressPercent}%` }}
         />
       </div>

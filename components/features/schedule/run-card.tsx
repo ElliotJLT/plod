@@ -67,7 +67,7 @@ export function RunCard({ run, isDragging, isCompact, onSkip }: RunCardProps) {
               {...listeners}
               className="touch-none text-muted-foreground hover:text-foreground cursor-grab active:cursor-grabbing"
             >
-              <GripVertical className="h-4 w-4" />
+              <GripVertical className="h-4 w-4" strokeWidth={1.5} />
             </button>
           )}
           <div className="flex-1 min-w-0">
@@ -79,13 +79,13 @@ export function RunCard({ run, isDragging, isCompact, onSkip }: RunCardProps) {
             </p>
           </div>
           {run.status === 'completed' && (
-            <Check className="h-4 w-4 text-accent" />
+            <Check className="h-4 w-4 text-accent" strokeWidth={1.5} />
           )}
           {run.status === 'skipped' && (
-            <X className="h-4 w-4 text-muted-foreground" />
+            <X className="h-4 w-4 text-muted-foreground" strokeWidth={1.5} />
           )}
           {run.movedFrom && (
-            <MoveRight className="h-4 w-4 text-accent" />
+            <MoveRight className="h-4 w-4 text-accent" strokeWidth={1.5} />
           )}
         </div>
       </div>
@@ -110,18 +110,18 @@ export function RunCard({ run, isDragging, isCompact, onSkip }: RunCardProps) {
             {...listeners}
             className="mt-1 touch-none text-muted-foreground hover:text-foreground cursor-grab active:cursor-grabbing"
           >
-            <GripVertical className="h-5 w-5" />
+            <GripVertical className="h-5 w-5" strokeWidth={1.5} />
           </button>
         )}
 
         <div className="flex-1 min-w-0">
           <div className="flex items-baseline justify-between gap-2 mb-1">
-            <p className="text-lg font-medium text-foreground">
+            <p className="text-lg font-light text-foreground">
               {run.distanceKm}km
             </p>
             {run.status === 'completed' && (
               <span className="text-xs text-accent flex items-center gap-1">
-                <Check className="h-3 w-3" />
+                <Check className="h-3 w-3" strokeWidth={1.5} />
                 Done
               </span>
             )}
@@ -136,7 +136,7 @@ export function RunCard({ run, isDragging, isCompact, onSkip }: RunCardProps) {
 
           {run.movedFrom && (
             <p className="text-xs text-accent mt-1 flex items-center gap-1">
-              <MoveRight className="h-3 w-3" />
+              <MoveRight className="h-3 w-3" strokeWidth={1.5} />
               Moved from {format(parseISO(run.movedFrom), 'EEE')}
             </p>
           )}
@@ -154,7 +154,7 @@ export function RunCard({ run, isDragging, isCompact, onSkip }: RunCardProps) {
             className="text-muted-foreground hover:text-foreground transition-colors"
             title="Skip this run"
           >
-            <X className="h-4 w-4" />
+            <X className="h-4 w-4" strokeWidth={1.5} />
           </button>
         )}
       </div>
@@ -167,9 +167,9 @@ export function RunCard({ run, isDragging, isCompact, onSkip }: RunCardProps) {
  */
 export function EmptyDaySlot({ isRestDay }: { isRestDay?: boolean }) {
   return (
-    <div className="rounded-lg border border-dashed border-border/50 p-3 h-full min-h-[80px] flex items-center justify-center">
-      <p className="text-xs text-muted-foreground">
-        {isRestDay ? 'Rest day' : 'No run'}
+    <div className="rounded-md border border-dashed border-border/30 p-2 h-full min-h-[60px] flex items-center justify-center">
+      <p className="text-xs text-muted-foreground/60">
+        {isRestDay ? 'Rest' : '—'}
       </p>
     </div>
   )

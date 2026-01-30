@@ -216,35 +216,26 @@ export default function SchedulePage() {
   }
 
   return (
-    <div className="min-h-screen bg-background pb-20">
-      <div className="p-4 space-y-4">
-        {/* Header */}
-        <div>
-          <h1 className="text-xl font-semibold text-foreground">Schedule</h1>
-          <p className="text-sm text-muted-foreground">
-            Drag runs to reschedule
-          </p>
-        </div>
+    <div className="min-h-screen pb-24">
+      <header className="px-4 pt-8 pb-6">
+        <h1 className="text-lg font-medium text-foreground">Schedule</h1>
+      </header>
 
+      <main className="px-4 space-y-4 stagger-children">
         {/* Goal card */}
-        <div className="rounded-lg border border-border bg-card p-4">
-          <div className="flex items-center gap-3">
-            <div className="p-2 rounded-full bg-accent/10">
-              <Target className="h-5 w-5 text-accent" />
-            </div>
+        <div className="rounded-xl border border-border bg-card p-4">
+          <div className="flex items-center gap-4">
             <div className="flex-1">
-              <p className="text-sm font-medium text-foreground">
-                Half Marathon
-              </p>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-xs text-muted-foreground">Half Marathon</p>
+              <p className="text-sm text-foreground mt-0.5">
                 {format(new Date(plan.targetDate), 'MMMM d, yyyy')}
               </p>
             </div>
             <div className="text-right">
-              <p className="text-2xl font-light text-foreground">
+              <p className="text-3xl font-light text-foreground">
                 {daysUntilGoal}
               </p>
-              <p className="text-xs text-muted-foreground">days</p>
+              <p className="text-xs text-muted-foreground">days to go</p>
             </div>
           </div>
         </div>
@@ -259,15 +250,7 @@ export default function SchedulePage() {
           onCalculateCascade={handleCalculateCascade}
           weekInfo={weekInfo}
         />
-
-        {/* Quick tip */}
-        <div className="rounded-lg bg-muted/30 p-3">
-          <p className="text-xs text-muted-foreground">
-            Tap and hold a run to drag it to a different day. The app will show
-            how other runs adjust.
-          </p>
-        </div>
-      </div>
+      </main>
     </div>
   )
 }
