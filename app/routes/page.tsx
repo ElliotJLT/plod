@@ -67,16 +67,9 @@ export default function RoutesPage() {
               <MapPin className="h-5 w-5 text-muted-foreground" strokeWidth={1.5} />
             </div>
             <p className="text-sm text-foreground mb-1">No routes saved</p>
-            <p className="text-xs text-muted-foreground mb-4">
-              Create routes with distance and lighting info
+            <p className="text-xs text-muted-foreground">
+              Tap + above to create your first route
             </p>
-            <Link
-              href="/routes/create"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-accent text-accent-foreground text-sm font-medium transition-colors hover:bg-accent/90"
-            >
-              <Plus className="h-4 w-4" strokeWidth={1.5} />
-              Create route
-            </Link>
           </div>
         ) : (
           <div className="space-y-3">

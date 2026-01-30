@@ -33,6 +33,7 @@ export default function OnboardingPage() {
     targetDate: '',
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   const currentStep = STEPS[step]
   const isLastStep = step === STEPS.length - 1
@@ -54,17 +55,22 @@ export default function OnboardingPage() {
   async function handleNext() {
     if (isLastStep) {
       setIsSubmitting(true)
+      setError(null)
       try {
         const res = await fetch('/api/onboarding', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(data),
         })
+        const json = await res.json()
         if (res.ok) {
           router.push('/')
+        } else {
+          setError(json.error || 'Failed to create plan')
         }
-      } catch (error) {
-        console.error('Onboarding failed:', error)
+      } catch (err) {
+        console.error('Onboarding failed:', err)
+        setError('Network error - please try again')
       } finally {
         setIsSubmitting(false)
       }
@@ -286,6 +292,15 @@ export default function OnboardingPage() {
           </div>
         )}
       </div>
+
+      {/* Error message */}
+      {error && (
+        <div className="px-4 pb-2">
+          <p className="text-sm text-red-400 bg-red-500/10 rounded-lg px-3 py-2">
+            {error}
+          </p>
+        </div>
+      )}
 
       {/* Navigation */}
       <div className="px-4 pb-8 flex gap-3">

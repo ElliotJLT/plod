@@ -143,11 +143,31 @@ export default function RouteMap({
         fillOpacity: 1,
       }).addTo(map)
 
-      // Click to remove point (if not read-only)
+      // Click interactions (if not read-only)
       if (!readOnly) {
+        // Single click on final marker = complete the loop
+        // Double click on any marker = remove it
+        let clickTimeout: NodeJS.Timeout | null = null
+
         marker.on('click', (e: L.LeafletMouseEvent) => {
           L.DomEvent.stopPropagation(e)
-          setLocalPoints((prev) => prev.filter((_, i) => i !== index))
+
+          if (clickTimeout) {
+            // Double click - remove the point
+            clearTimeout(clickTimeout)
+            clickTimeout = null
+            setLocalPoints((prev) => prev.filter((_, i) => i !== index))
+          } else {
+            // Start single click timer
+            clickTimeout = setTimeout(() => {
+              clickTimeout = null
+              // Single click on final marker completes the loop
+              if (isEnd && localPoints.length >= 2) {
+                const firstPoint = localPoints[0]
+                setLocalPoints((prev) => [...prev, { lat: firstPoint.lat, lng: firstPoint.lng }])
+              }
+            }, 250)
+          }
         })
       }
 
