@@ -89,11 +89,16 @@ export default function CreateRoutePage() {
   const generateGoogleMapsUrl = () => {
     if (routeData.points.length < 2) return null
 
-    const waypoints = routeData.points
-      .map((p) => `${p.lat},${p.lng}`)
-      .join('/')
+    const origin = `${routeData.points[0].lat},${routeData.points[0].lng}`
+    const destination = `${routeData.points[routeData.points.length - 1].lat},${routeData.points[routeData.points.length - 1].lng}`
 
-    return `https://www.google.com/maps/dir/${waypoints}`
+    // Middle points as waypoints (Google Maps limits to ~10 waypoints)
+    const middlePoints = routeData.points.slice(1, -1).slice(0, 10)
+    const waypoints = middlePoints.length > 0
+      ? `&waypoints=${middlePoints.map((p) => `${p.lat},${p.lng}`).join('|')}`
+      : ''
+
+    return `https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${destination}${waypoints}&travelmode=walking`
   }
 
   const googleMapsUrl = generateGoogleMapsUrl()
@@ -114,12 +119,23 @@ export default function CreateRoutePage() {
 
       <main className="px-4 space-y-4">
         {/* Map */}
-        <div className="rounded-xl overflow-hidden border border-border">
+        <div className="relative rounded-xl overflow-hidden border border-border">
           <RouteMap onRouteChange={handleRouteChange} points={routeData.points} />
+          {/* Lighting overlay indicator */}
+          {lighting !== 'unknown' && (
+            <div
+              className={cn(
+                'absolute inset-0 pointer-events-none transition-colors',
+                lighting === 'well_lit' && 'bg-yellow-500/5',
+                lighting === 'partial' && 'bg-orange-500/10',
+                lighting === 'unlit' && 'bg-black/20'
+              )}
+            />
+          )}
         </div>
 
         <p className="text-xs text-muted-foreground text-center">
-          Tap on the map to add points. Tap a point to remove it.
+          Tap to add points. Tap final point to complete loop. Double-tap to remove.
         </p>
 
         {/* Route stats */}
