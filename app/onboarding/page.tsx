@@ -104,7 +104,7 @@ export default function OnboardingPage() {
               performance pressure—just consistent progress toward your goal.
             </p>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              We'll ask a few questions to build a training plan that fits your
+              A few questions to build a training plan that fits your
               life. Everything adapts as you go.
             </p>
           </div>
@@ -165,7 +165,7 @@ export default function OnboardingPage() {
             <div className="space-y-4">
               <div>
                 <label className="text-sm text-muted-foreground block mb-2">
-                  Furthest you've ever run (km)
+                  Furthest run (km)
                 </label>
                 <input
                   type="number"
@@ -248,7 +248,7 @@ export default function OnboardingPage() {
             <div>
               <h1 className="text-xl font-light text-foreground">Your goal</h1>
               <p className="text-sm text-muted-foreground mt-1">
-                When's your half marathon?
+                When is your half marathon?
               </p>
             </div>
 
