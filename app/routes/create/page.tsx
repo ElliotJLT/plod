@@ -23,6 +23,7 @@ interface RoutePoint {
 
 interface RouteData {
   points: RoutePoint[]
+  pathPoints: RoutePoint[]
   distanceKm: number
   elevationGainM: number
   estimatedDurationMin: number
@@ -39,6 +40,7 @@ export default function CreateRoutePage() {
   const [name, setName] = useState('')
   const [routeData, setRouteData] = useState<RouteData>({
     points: [],
+    pathPoints: [],
     distanceKm: 0,
     elevationGainM: 0,
     estimatedDurationMin: 0,
@@ -53,6 +55,7 @@ export default function CreateRoutePage() {
   const handleClearRoute = () => {
     setRouteData({
       points: [],
+      pathPoints: [],
       distanceKm: 0,
       elevationGainM: 0,
       estimatedDurationMin: 0,
@@ -69,7 +72,8 @@ export default function CreateRoutePage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name: name || `Route ${new Date().toLocaleDateString()}`,
-          points: routeData.points,
+          waypoints: routeData.points,
+          pathPoints: routeData.pathPoints.length > 0 ? routeData.pathPoints : routeData.points,
           distanceKm: routeData.distanceKm,
           elevationGainM: routeData.elevationGainM,
           lighting,

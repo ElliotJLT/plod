@@ -26,7 +26,7 @@ export async function GET() {
       id: string
       name: string
       distance_km: number
-      elevation_gain_m: number | null
+      elevation_gain: number | null
       lighting_score: string | null
       created_at: string
     }
@@ -35,7 +35,7 @@ export async function GET() {
         id: route.id,
         name: route.name,
         distanceKm: Number(route.distance_km),
-        elevationGainM: Number(route.elevation_gain_m) || 0,
+        elevationGainM: Number(route.elevation_gain) || 0,
         lighting: route.lighting_score,
         createdAt: route.created_at,
       })),
@@ -52,38 +52,43 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { name, points, distanceKm, elevationGainM, lighting } = body
+    const { name, waypoints, pathPoints, distanceKm, elevationGainM, lighting } = body
 
-    if (!points || points.length < 2) {
+    // Use pathPoints (routed path) or waypoints (user clicks)
+    const points = pathPoints && pathPoints.length > 0 ? pathPoints : waypoints
+
+    if (!waypoints || waypoints.length < 2) {
       return NextResponse.json(
-        { error: 'Route must have at least 2 points' },
+        { error: 'Route must have at least 2 waypoints' },
         { status: 400 }
       )
     }
 
     const supabase = await createServerSupabase()
 
-    // Generate Google Maps URL
-    const waypoints = points.map((p: { lat: number; lng: number }) => `${p.lat},${p.lng}`).join('/')
-    const googleMapsUrl = `https://www.google.com/maps/dir/${waypoints}`
+    // Check if it's a loop
+    const isLoop = waypoints[0].lat === waypoints[waypoints.length - 1].lat &&
+                   waypoints[0].lng === waypoints[waypoints.length - 1].lng
 
     const { data, error } = await supabase
       .from('routes')
       .insert({
         user_id: TEMP_USER_ID,
         name: name || `Route ${new Date().toLocaleDateString()}`,
+        description: null,
         distance_km: distanceKm,
-        elevation_gain_m: elevationGainM || 0,
+        elevation_gain: elevationGainM || 0,
+        elevation_loss: 0,
+        elevation_profile: [],
+        geometry: { type: 'LineString', coordinates: points.map((p: { lat: number; lng: number }) => [p.lng, p.lat]) },
+        start_lat: waypoints[0].lat,
+        start_lng: waypoints[0].lng,
+        end_lat: waypoints[waypoints.length - 1].lat,
+        end_lng: waypoints[waypoints.length - 1].lng,
+        route_type: isLoop ? 'loop' : 'point_to_point',
         lighting_score: lighting || 'unknown',
-        path_coordinates: points,
-        start_point: `POINT(${points[0].lng} ${points[0].lat})`,
-        end_point: `POINT(${points[points.length - 1].lng} ${points[points.length - 1].lat})`,
-        google_maps_url: googleMapsUrl,
+        surface: 'unknown',
         source: 'manual',
-        route_type: points[0].lat === points[points.length - 1].lat &&
-                    points[0].lng === points[points.length - 1].lng
-          ? 'loop'
-          : 'point_to_point',
       })
       .select()
       .single()
