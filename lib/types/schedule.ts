@@ -26,7 +26,7 @@ export interface ScheduledRun {
   originalDate: string // ISO date YYYY-MM-DD
 
   /** Current scheduled date (may differ if moved) */
-  currentDate: string // ISO date YYYY-MM-DD
+  scheduledDate: string // ISO date YYYY-MM-DD
 
   /** Distance in kilometers */
   distanceKm: number

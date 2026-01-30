@@ -100,7 +100,7 @@ export type Database = {
           id: string
           plan_id: string
           original_date: string
-          current_date: string
+          scheduled_date: string
           distance_km: number
           run_type: 'easy' | 'long' | 'recovery' | 'moderate'
           week_number: number
@@ -116,7 +116,7 @@ export type Database = {
           id?: string
           plan_id: string
           original_date: string
-          current_date: string
+          scheduled_date: string
           distance_km: number
           run_type: 'easy' | 'long' | 'recovery' | 'moderate'
           week_number: number
@@ -132,7 +132,7 @@ export type Database = {
           id?: string
           plan_id?: string
           original_date?: string
-          current_date?: string
+          scheduled_date?: string
           distance_km?: number
           run_type?: 'easy' | 'long' | 'recovery' | 'moderate'
           week_number?: number

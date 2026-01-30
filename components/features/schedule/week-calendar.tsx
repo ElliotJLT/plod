@@ -141,7 +141,7 @@ export function WeekCalendar({
   const runsByDate = new Map<string, ScheduledRun>()
   for (const run of runs) {
     if (run.status !== 'skipped') {
-      runsByDate.set(run.currentDate, run)
+      runsByDate.set(run.scheduledDate, run)
     }
   }
 
@@ -161,7 +161,7 @@ export function WeekCalendar({
 
     // Don't do anything if dropped on same date
     const run = runs.find((r) => r.id === runId)
-    if (!run || run.currentDate === newDate) return
+    if (!run || run.scheduledDate === newDate) return
 
     // Calculate cascade effect
     const preview = onCalculateCascade(runId, newDate)
@@ -266,7 +266,7 @@ export function WeekCalendar({
                 key={dateStr}
                 date={date}
                 run={run}
-                isDragTarget={!!activeRun && activeRun.currentDate !== dateStr}
+                isDragTarget={!!activeRun && activeRun.scheduledDate !== dateStr}
                 onSkip={handleSkipRun}
               />
             )

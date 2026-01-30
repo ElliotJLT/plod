@@ -31,7 +31,7 @@ const mockPlan: TrainingPlan = {
       id: 'run-1',
       planId: 'plan-1',
       originalDate: '2026-01-27',
-      currentDate: '2026-01-27',
+      scheduledDate: '2026-01-27',
       distanceKm: 4,
       type: 'easy',
       weekNumber: 1,
@@ -44,7 +44,7 @@ const mockPlan: TrainingPlan = {
       id: 'run-2',
       planId: 'plan-1',
       originalDate: '2026-01-29',
-      currentDate: '2026-01-29',
+      scheduledDate: '2026-01-29',
       distanceKm: 5,
       type: 'easy',
       weekNumber: 1,
@@ -57,7 +57,7 @@ const mockPlan: TrainingPlan = {
       id: 'run-3',
       planId: 'plan-1',
       originalDate: '2026-02-01',
-      currentDate: '2026-02-01',
+      scheduledDate: '2026-02-01',
       distanceKm: 8,
       type: 'long',
       weekNumber: 1,
@@ -70,7 +70,7 @@ const mockPlan: TrainingPlan = {
       id: 'run-4',
       planId: 'plan-1',
       originalDate: '2026-02-02',
-      currentDate: '2026-02-02',
+      scheduledDate: '2026-02-02',
       distanceKm: 3,
       type: 'recovery',
       weekNumber: 2,
@@ -82,7 +82,7 @@ const mockPlan: TrainingPlan = {
       id: 'run-5',
       planId: 'plan-1',
       originalDate: '2026-02-04',
-      currentDate: '2026-02-04',
+      scheduledDate: '2026-02-04',
       distanceKm: 5,
       type: 'easy',
       weekNumber: 2,
@@ -94,7 +94,7 @@ const mockPlan: TrainingPlan = {
       id: 'run-6',
       planId: 'plan-1',
       originalDate: '2026-02-06',
-      currentDate: '2026-02-06',
+      scheduledDate: '2026-02-06',
       distanceKm: 5,
       type: 'easy',
       weekNumber: 2,
@@ -106,7 +106,7 @@ const mockPlan: TrainingPlan = {
       id: 'run-7',
       planId: 'plan-1',
       originalDate: '2026-02-08',
-      currentDate: '2026-02-08',
+      scheduledDate: '2026-02-08',
       distanceKm: 10,
       type: 'long',
       weekNumber: 2,
@@ -142,7 +142,7 @@ function getWeekInfo(
 
   // Filter runs for this week
   const weekRuns = runs.filter((run) => {
-    return run.currentDate >= weekStartStr && run.currentDate <= weekEndStr
+    return run.scheduledDate >= weekStartStr && run.scheduledDate <= weekEndStr
   })
 
   const plannedRuns = weekRuns.filter((r) => r.status !== 'skipped')
@@ -185,7 +185,7 @@ export default function SchedulePage() {
         run.id === runId
           ? {
               ...run,
-              currentDate: newDate,
+              scheduledDate: newDate,
               status: 'moved' as const,
               movedFrom: run.movedFrom || run.originalDate,
             }

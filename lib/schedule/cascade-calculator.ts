@@ -49,7 +49,7 @@ interface DaySlot {
 function getWeekRuns(runs: ScheduledRun[], weekStart: Date): ScheduledRun[] {
   const weekEnd = endOfWeek(weekStart, { weekStartsOn: 1 }) // Monday start
   return runs.filter((run) => {
-    const runDate = parseISO(run.currentDate)
+    const runDate = parseISO(run.scheduledDate)
     return !isBefore(runDate, weekStart) && !isAfter(runDate, weekEnd)
   })
 }
@@ -68,7 +68,7 @@ function calculateWeeklyDistance(runs: ScheduledRun[]): number {
  */
 function countRestDays(runs: ScheduledRun[], weekStart: Date): number {
   const weekRuns = getWeekRuns(runs, weekStart)
-  const runDates = new Set(weekRuns.map((r) => r.currentDate))
+  const runDates = new Set(weekRuns.map((r) => r.scheduledDate))
   let restDays = 0
 
   for (let i = 0; i < 7; i++) {
@@ -112,14 +112,14 @@ function findConflicts(
     if (run.status === 'skipped') continue
 
     // Same day conflict
-    if (run.currentDate === newDate) {
+    if (run.scheduledDate === newDate) {
       conflicts.push(run)
       continue
     }
 
     // Hard run on consecutive days conflict
     if (isHardRun(targetRun) && isHardRun(run)) {
-      if (areConsecutive(newDate, run.currentDate)) {
+      if (areConsecutive(newDate, run.scheduledDate)) {
         conflicts.push(run)
       }
     }
@@ -197,7 +197,7 @@ export function calculateSkipEffect(
   const targetRun = plan.runs.find((r) => r.id === runId)
   if (!targetRun) return null
 
-  const runDate = parseISO(targetRun.currentDate)
+  const runDate = parseISO(targetRun.scheduledDate)
   const weekStart = startOfWeek(runDate, { weekStartsOn: 1 })
 
   // Calculate before/after distances
@@ -261,7 +261,7 @@ export function calculateMoveEffect(
   const affectedRuns: CascadePreview['affectedRuns'] = []
 
   for (const conflict of conflicts) {
-    if (conflict.currentDate === newDate) {
+    if (conflict.scheduledDate === newDate) {
       // Same-day conflict: the existing run needs to move
       // Try to find a new spot for it
       const alternateDate = findAlternateDate(activeRuns, conflict, targetRun, newDate)
@@ -290,7 +290,7 @@ export function calculateMoveEffect(
   }
 
   // Calculate distance changes
-  const runDate = parseISO(targetRun.currentDate)
+  const runDate = parseISO(targetRun.scheduledDate)
   const weekStart = startOfWeek(runDate, { weekStartsOn: 1 })
   const weekRuns = getWeekRuns(plan.runs, weekStart)
   const beforeDistance = calculateWeeklyDistance(weekRuns)
@@ -316,7 +316,7 @@ export function calculateMoveEffect(
   if (isNewDateInSameWeek) {
     // Check if new date was a rest day
     const wasRestDay = !activeRuns.some(
-      (r) => r.currentDate === newDate && r.id !== targetRun.id
+      (r) => r.scheduledDate === newDate && r.id !== targetRun.id
     )
     if (wasRestDay) {
       recoveryDaysLost = 1
@@ -330,7 +330,7 @@ export function calculateMoveEffect(
       (r) =>
         r.id !== targetRun.id &&
         isHardRun(r) &&
-        areConsecutive(newDate, r.currentDate)
+        areConsecutive(newDate, r.scheduledDate)
     )
 
   const summary = generateSummary(
@@ -379,7 +379,7 @@ function findAlternateDate(
   targetRun: ScheduledRun,
   targetNewDate: string
 ): string | null {
-  const runDate = parseISO(conflictRun.currentDate)
+  const runDate = parseISO(conflictRun.scheduledDate)
   const weekStart = startOfWeek(runDate, { weekStartsOn: 1 })
 
   // Try each day of the week
@@ -392,7 +392,7 @@ function findAlternateDate(
     // Skip dates that already have runs
     const hasRun = runs.some(
       (r) =>
-        r.currentDate === candidateDate &&
+        r.scheduledDate === candidateDate &&
         r.id !== conflictRun.id &&
         r.id !== targetRun.id
     )
@@ -405,7 +405,7 @@ function findAlternateDate(
           r.id !== conflictRun.id &&
           r.id !== targetRun.id &&
           isHardRun(r) &&
-          areConsecutive(candidateDate, r.currentDate)
+          areConsecutive(candidateDate, r.scheduledDate)
       )
       if (hasAdjacentHardRun) continue
     }
@@ -429,7 +429,7 @@ function findAlternateDate(
 
       const hasRun = runs.some(
         (r) =>
-          r.currentDate === candidateDate &&
+          r.scheduledDate === candidateDate &&
           r.id !== conflictRun.id &&
           r.id !== targetRun.id
       )
@@ -489,7 +489,7 @@ export function getValidDropDates(
     const candidateDate = format(addDays(weekStart, i), 'yyyy-MM-dd')
 
     // Skip current date
-    if (candidateDate === targetRun.currentDate) continue
+    if (candidateDate === targetRun.scheduledDate) continue
 
     // Check if date is available or has low-risk conflict
     const effect = calculateMoveEffect(plan, runId, candidateDate)

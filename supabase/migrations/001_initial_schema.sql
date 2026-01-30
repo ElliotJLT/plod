@@ -86,7 +86,7 @@ create table scheduled_runs (
   plan_id uuid references training_plans(id) on delete cascade not null,
 
   original_date date not null,
-  current_date date not null,
+  scheduled_date date not null,
   distance_km decimal(4,1) not null,
   run_type run_type not null,
   week_number integer not null,
@@ -102,7 +102,7 @@ create table scheduled_runs (
 );
 
 create index idx_scheduled_runs_plan on scheduled_runs(plan_id);
-create index idx_scheduled_runs_date on scheduled_runs(current_date);
+create index idx_scheduled_runs_date on scheduled_runs(scheduled_date);
 create index idx_scheduled_runs_status on scheduled_runs(status);
 create index idx_scheduled_runs_strava on scheduled_runs(strava_activity_id);
 
