@@ -2,13 +2,15 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Sun, List } from "lucide-react"
+import { Sun, Calendar, MapPin, List } from "lucide-react"
 
 export function BottomNav() {
   const pathname = usePathname()
 
   const tabs = [
     { name: "Today", href: "/", icon: Sun },
+    { name: "Schedule", href: "/schedule", icon: Calendar },
+    { name: "Routes", href: "/routes", icon: MapPin },
     { name: "Runs", href: "/runs", icon: List },
   ]
 
