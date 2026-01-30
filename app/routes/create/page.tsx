@@ -104,7 +104,7 @@ export default function CreateRoutePage() {
   const googleMapsUrl = generateGoogleMapsUrl()
 
   return (
-    <div className="min-h-screen pb-24">
+    <div className="min-h-screen pb-24 max-w-lg mx-auto">
       <header className="px-4 pt-8 pb-4">
         <div className="flex items-center gap-3">
           <button

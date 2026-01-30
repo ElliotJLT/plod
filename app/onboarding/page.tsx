@@ -84,7 +84,7 @@ export default function OnboardingPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col max-w-lg mx-auto">
       {/* Progress */}
       <div className="px-4 pt-8 pb-4">
         <div className="flex gap-1">

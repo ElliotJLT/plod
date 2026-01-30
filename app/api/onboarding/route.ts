@@ -58,6 +58,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Create the training plan
+    // Note: RLS requires authenticated user. For dev, we bypass with service role or disable RLS
     const { data: trainingPlan, error: planError } = await supabase
       .from('training_plans')
       .insert({
@@ -67,14 +68,19 @@ export async function POST(request: NextRequest) {
         start_date: plan.startDate,
         total_weeks: plan.totalWeeks,
         status: 'active',
-        starting_longest_run_km: longestRunKm,
-        starting_weekly_km: currentWeeklyKm,
       })
       .select()
       .single()
 
     if (planError) {
       console.error('Plan creation error:', planError)
+      // Check for RLS error
+      if (planError.message.includes('row-level security') || planError.code === '42501') {
+        return NextResponse.json(
+          { error: 'Database permission error. Run this SQL in Supabase: ALTER TABLE training_plans DISABLE ROW LEVEL SECURITY; ALTER TABLE scheduled_runs DISABLE ROW LEVEL SECURITY;' },
+          { status: 500 }
+        )
+      }
       return NextResponse.json(
         { error: 'Failed to create training plan', details: planError.message },
         { status: 500 }

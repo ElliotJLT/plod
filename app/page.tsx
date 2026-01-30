@@ -104,7 +104,7 @@ export default function Home() {
 
   if (loading) {
     return (
-      <div className="min-h-screen pb-24">
+      <div className="min-h-screen pb-24 max-w-lg mx-auto">
         <header className="px-4 pt-8 pb-6">
           <h1 className="text-lg font-medium text-foreground">Today</h1>
         </header>
@@ -128,7 +128,7 @@ export default function Home() {
   const runIsToday = displayRun && isToday(parseISO(displayRun.date))
 
   return (
-    <div className="min-h-screen pb-24">
+    <div className="min-h-screen pb-24 max-w-lg mx-auto">
       <header className="px-4 pt-8 pb-6">
         <h1 className="text-lg font-medium text-foreground">Today</h1>
       </header>
