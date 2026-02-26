@@ -1,4 +1,4 @@
-# plod
+# 🏃 plod
 
 A calm running app that cares about your health, not your PBs. PWA with Strava sync.
 
@@ -23,12 +23,12 @@ npm run dev
 
 ## Features
 
-- **Today dashboard** — current conditions, air quality, and weekly progress at a glance
-- **Strava sync** — automatic activity import
-- **Weather + AQI** — real-time conditions to inform run decisions
-- **Week planner** — drag-and-drop scheduling with cascade rescheduling
-- **Effort ratings** — log how runs felt, not just how fast they were
-- **Training plans** — AI-generated half-marathon plans using 80/20 polarised training
+- 📊 **Today dashboard** — current conditions, air quality, and weekly progress at a glance
+- 🔄 **Strava sync** — automatic activity import
+- 🌤️ **Weather + AQI** — real-time conditions to inform run decisions
+- 📅 **Week planner** — drag-and-drop scheduling with cascade rescheduling
+- 💪 **Effort ratings** — log how runs felt, not just how fast they were
+- 🧠 **Training plans** — AI-generated half-marathon plans using 80/20 polarised training
 
 ## Tech
 
