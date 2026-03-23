@@ -2,6 +2,8 @@
 
 A calm running app that cares about your health, not your PBs. PWA with Strava sync.
 
+**Status: Prototype — built as a personal project, not deployed commercially**
+
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
 ![Next.js](https://img.shields.io/badge/Next.js-000000?logo=nextdotjs&logoColor=white)
 ![Supabase](https://img.shields.io/badge/Supabase-3FCF8E?logo=supabase&logoColor=white)
